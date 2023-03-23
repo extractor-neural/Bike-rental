@@ -1,0 +1,6 @@
+season.{1:'spring',2:'summer',3:'fall',4:'winter'}
+year.{0:"2011",1:"2012"}
+weather.{1:'Clear',2:'Mist',3:'Light Snow',4:'Heavy Rain'}
+day_type.{1:"Working_day",0:'Holyday'}
+weekday.{1:'Mon',2:'Tue',3:'Wed',4:'Thu',5:'Fri',6:'Sat',0:'Sun'}
+month.{1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'June',7:'July',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'}
