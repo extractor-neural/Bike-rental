@@ -1,19 +1,10 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
-
 import os
-from datetime import datetime
-import matplotlib.pyplot as plt
-import seaborn as sns 
-import tkinter as tk
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import pickle
 import os
 import warnings
-import matplotlib
-matplotlib.use('TkAgg', force=True)
 warnings.filterwarnings('ignore')
 
 #Importing Machine Learning Model
@@ -40,71 +31,54 @@ max_error = {}
 MAE = {}
 
 
-sns.set_style(
-    "white",
-    {
-        "axes.spines.left": False,
-        "axes.spines.bottom": True,
-        "axes.spines.right": False,
-        "axes.spines.top": False,
-    }
-)
-warnings.simplefilter("ignore")
 
-
-
-# A dictionary of menu options
+# un diccionario que despliega un menu de opciones
 menu_options = {
     1: "Entrenar ",
     2: "Resultados de todos los modelos probados",
     3: "Exit"
     }
 
-
+#limpiar teminal antes de imprimir
 def main():
     os.system('clear')
     while(True):
-
         print_menu()
         option = ''
         try:
-            option = int(input('Enter your choice: '))
+            option = int(input('ingrese su eleccion: '))
         except:
-            print('Wrong input. Please enter a number ...')
-        #Check what choice was entered and act accordingly
+            print('Entrada erronea, por favor ingrese un numero ...')
+        #comprobar si la opcion ingresada existe
         if option == 1:
             build_model()
         elif option == 2:
             model_comparison()
         elif option == 3:
-            print('Thanks message before exiting')
+            print('Ejecucion terminada')
             exit()
         else:
-            print('Invalid option. Please enter a number between 1 and 4.')
+            print('Opcion invalida, ingrese un numero entre 1 y 4.')
 
 def print_menu():
     for key in menu_options.keys():
         print (key, '--', menu_options[key] )
 
+# se eliminan categorias que no oportan informacion relevante
 def load_and_drop():
-    bike_training = load_training_table()
-    bike_training.drop(['date','holiday','year','instant','casual','last_modified','registered', 'humidity'],axis=1,inplace=True)
-    return bike_training
+    training_data = load_training_table()
+    training_data.drop(['date','holiday','year','instant','casual','last_modified','registered', 'humidity'],axis=1,inplace=True)
+    print('\nloading...')
+    return training_data
 
 def build_model():
-
     data = load_and_drop()
+    # Gradient Boosting Model
     gbr = ensemble.GradientBoostingRegressor(learning_rate=0.01, n_estimators=1000, 
-                                             max_depth=5, min_samples_split=8) # Gradient Boosting Model
+                                             max_depth=5, min_samples_split=8) 
     model_path = make_model(data, gbr, "Gradient Boost")
 
 def model_comparison():
-     
-    with ScreenDimensions() as sd:
-        width= sd.width
-        height = sd.height
-
-    # Load and analyze data
     data = load_and_drop()
 
     lr = LinearRegression() #Linear Regression Model
@@ -128,39 +102,39 @@ def model_comparison():
 
 def statistics(model,model_name,x_test,y_test):
 
-    print('\n',model_name) # Printing model name
-    pred = model.predict(x_test) # predicting our data
+    print('\n',model_name)
+    pred = model.predict(x_test) # resultados
     
-    acc = metrics.r2_score(y_test, pred)*100 #Checking R2_Score
-    accuracy[model_name] = acc # Saving R2_Score to dict.
+    acc = metrics.r2_score(y_test, pred)*100 #Calcular R2_Score
+    accuracy[model_name] = acc 
     print('R2_Score',acc)
 
-    met = np.sqrt(metrics.mean_squared_error(y_test, pred)) #Calculating RMSE
+    met = np.sqrt(metrics.mean_squared_error(y_test, pred)) #Calcular RMSE
     print('RMSE : ', met) 
-    rmse[model_name] = met #Saving RMSE
+    rmse[model_name] = met 
 
-    var = (metrics.explained_variance_score(y_test, pred)) #Calculating explained_variance_score
+    var = (metrics.explained_variance_score(y_test, pred)) #Calcular explained_variance_score
     print('Explained_Variance : ', var)
-    explained_variance[model_name] = var #Saving explained_variance_score
+    explained_variance[model_name] = var 
 
-    error = (metrics.max_error(y_test, pred)) #Calculating Max_Error
+    error = (metrics.max_error(y_test, pred)) #Calcular Max_Error
     print('Max_Error : ', error)
-    max_error[model_name] = error #Saving Max_Error
+    max_error[model_name] = error 
     
-    err = metrics.mean_absolute_error(y_test, pred) #Calculating mean_absolute_error
+    err = metrics.mean_absolute_error(y_test, pred) #Calcular mean_absolute_error
     print("Mean Absolute Error", err, '\n')
-    MAE[model_name] = err #Saving mean_absolute_error
-    # file name, I'm using *.pickle as a file extension
+    MAE[model_name] = err 
+
 
 def make_model(data, model, model_name):
     x = data.copy()
     y = x.pop('count')
     x_train, x_test, y_train, y_test = train_test_split(x, y,train_size=0.8, random_state=134)
                      
-    model.fit(x_train,y_train) # fitting the defined model
-
+    model.fit(x_train,y_train) 
+    # Se imprimen las metricas de cada modelo
     statistics(model,model_name,x_test,y_test)
-
+    # Se almacena el modelo corresponciente bajo la extencion pickle
     file_name = [model_name,'pickle']
     file_name = '.'.join(file_name)
     file_path = os.path.join('../models',file_name)
@@ -169,7 +143,7 @@ def make_model(data, model, model_name):
         os.makedirs("../models")
     with open(file_path, "wb") as file:
         pickle.dump(model, file)
-
+        
     return file_path
 
 
@@ -181,23 +155,6 @@ def train_model(data, model, model_name):
     model.fit(x_train, y_train)
     statistics(model,model_name,x_test,y_test)
     
-
-
-
-
-
-class ScreenDimensions:
-    def __enter__(self):
-        # Initialize the object and get the screen dimensions
-        self.root = tk.Tk()  # Create a Tk object
-        self.width = self.root.winfo_screenwidth()  # Get screen width in pixels
-        self.height = self.root.winfo_screenheight()  # Get screen height in pixels
-        return self  # Return the ScreenDimensions object to the caller
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        # Clean up the object when the with statement is exited
-        self.root.destroy()  # Destroy the Tk object to free up resources
-        
 def load_training_table(file_name='../data-warehouse/bike_clean_for_training.csv'):
     if not os.path.exists(file_name):
         raise FileNotFoundError(f"File {file_name} not found")

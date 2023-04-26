@@ -9,6 +9,8 @@ day_open ='2011-01-01'
 day_close ='2012-12-31'
 
 
+# las siguientes funciones corresponden a versiones
+# con similar proposito encontradas en el proyecto 'Pqrs simulation'
 def process_next_weeks(n_weeks=1):
     for _ in range(n_weeks):
         process_next_week()

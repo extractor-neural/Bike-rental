@@ -1,1 +1,0 @@
-{'weathersit':'weather','yr':'year','hr':'hour','mnth':'month','hum':'humidity','cnt':'count','temp':'temperature','atemp':'warming_sensation','dteday':'date','workingday':'day_type'}

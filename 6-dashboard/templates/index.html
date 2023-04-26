@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Una grafica muy util</title>
+
+	<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css"
+		integrity=
+"sha512-wzhF4/lKJ2Nc8mKHNzoFP4JZsnTcBOUUBT+lWPcs07mz6lK3NpMH1NKCKDMarjaw8gcYnSBNjjllN4kVbKedbw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>REAL EFICACIA DEL MODELO</h1>
+
+	<p>La informacion presentada se renueva semanalmente</p>
+
+	<img src=
+"{{url_for('static', filename='report1.png')}}" 
+		class="zoom"
+		data-magnify-src=
+        "{{url_for('static', filename='report2.png')}}" />
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+		integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			crossorigin="anonymous"></script>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js"
+		integrity=
+"sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		$(document).ready(function () {
+			$(".zoom").magnify();
+		});
+	</script>
+    <p><abbr title="BE nice"> mas info  </abbr> Autor: Diego Eraso</p>
+    <A HREF="https://github.com/Diego4MLops?tab=repositories"> https://github.com/Diego4MLops </A>
+</body>
+
+</html>
